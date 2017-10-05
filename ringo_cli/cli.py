@@ -36,8 +36,9 @@ def admin(ctx):
 @click.argument('jsonfile', type=click.File('rb'))
 @click.pass_context
 def create(ctx, jsonfile):
-    """Creates a new item on the service.
-    The new item is initialised with the values defined in the JSON
+    """Creates new item(s).
+
+    The new item(s) are initialised with the values defined in the JSON
     file. Create is called for every dataset within the JSON file.
     """
     data = voorhees.from_json(jsonfile.read())
@@ -57,6 +58,7 @@ def create(ctx, jsonfile):
 @click.argument('id', type=click.INT)
 @click.pass_context
 def read(ctx, id):
+    """Loads a single item."""
     service = ctx.obj["service"]
     response = requests.get("{}/{}/{}".format(SERVICES[service]["url"], service, id))
     if (response.status_code >= 300):
@@ -71,6 +73,11 @@ def read(ctx, id):
 @click.argument('jsonfile', type=click.File('rb'))
 @click.pass_context
 def update(ctx, jsonfile):
+    """Updates item(s).
+
+    The item(s) are updated with the values defined in the JSON
+    file. Update is called for every dataset within the JSON file.
+    """
     data = voorhees.from_json(jsonfile.read())
     if not isinstance(data, list):
         data = [data]
@@ -89,6 +96,7 @@ def update(ctx, jsonfile):
 @click.argument('id', type=click.INT)
 @click.pass_context
 def delete(ctx, id):
+    """Deletes a single item."""
     click.echo('Deleting ID:{} -> '.format(id), nl=False)
     service = ctx.obj["service"]
     response = requests.delete("{}/{}/{}".format(SERVICES[service]["url"], service, id))
@@ -99,6 +107,7 @@ def delete(ctx, id):
 @click.command()
 @click.pass_context
 def search(ctx):
+    """Search and list items."""
     service = ctx.obj["service"]
     response = requests.get("{}/{}".format(SERVICES[service]["url"], service))
     if (response.status_code >= 300):
