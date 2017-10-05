@@ -8,6 +8,7 @@ SERVICES = {
     "users": {}
 }
 
+
 @click.group()
 def main():
     pass
@@ -23,7 +24,7 @@ def create(service, jsonfile):
     """
     data = voorhees.from_json(jsonfile.read())
     if not isinstance(data, list):
-        data = [date]
+        data = [data]
 
     total = len(data)
     for num, item in enumerate(data):
@@ -47,7 +48,7 @@ def read(service, id):
 def update(service, jsonfile):
     data = voorhees.from_json(jsonfile.read())
     if not isinstance(data, list):
-        data = [date]
+        data = [data]
 
     total = len(data)
     for num, item in enumerate(data):
@@ -65,7 +66,6 @@ def delete(service, id):
     response = requests.delete("http://0.0.0.0:5000/users/{}".format(id))
     color = "red" if (response.status_code >= 300) else "green"
     click.echo(click.style('{}'.format(response.status_code), fg=color))
-
 
 
 main.add_command(create)
