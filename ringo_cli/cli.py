@@ -107,15 +107,17 @@ def delete(ctx, id):
 @click.command()
 @click.pass_context
 @click.option('--limit', help="Limit number of result", default=100)
-def search(ctx, limit):
+@click.option('--offset', help="Return entries with an offset", default=0)
+@click.option('--search', help="Define a search filter")
+def search(ctx, limit, offset, search):
     """Search and list items."""
     service = ctx.obj["service"]
-    params = {"limit": limit}
+    params = {"limit": limit, "offset": offset, "search": search}
     response = requests.get("{}/{}".format(SERVICES[service]["url"], service), params=params)
     if (response.status_code >= 300):
         color = "red"
         click.echo('Searching -> ', nl=False)
-        click.echo(click.style('{}'.format(response.status_code), fg=color))
+        click.echo(click.style('{} ({})'.format(response.status_code, response.text), fg=color))
     else:
         print(voorhees.prettify(response.text))
 
