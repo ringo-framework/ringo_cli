@@ -109,10 +109,11 @@ def delete(ctx, id):
 @click.option('--limit', help="Limit number of result", default=100)
 @click.option('--offset', help="Return entries with an offset", default=0)
 @click.option('--search', help="Define a search filter")
-def search(ctx, limit, offset, search):
+@click.option('--sort', help="Configure sort and ordering")
+def search(ctx, limit, offset, search, sort):
     """Search and list items."""
     service = ctx.obj["service"]
-    params = {"limit": limit, "offset": offset, "search": search}
+    params = {"limit": limit, "offset": offset, "search": search, "sort": sort}
     response = requests.get("{}/{}".format(SERVICES[service]["url"], service), params=params)
     if (response.status_code >= 300):
         color = "red"
