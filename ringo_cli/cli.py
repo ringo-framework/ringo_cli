@@ -106,10 +106,12 @@ def delete(ctx, id):
 
 @click.command()
 @click.pass_context
-def search(ctx):
+@click.option('--limit', help="Limit number of result", default=100)
+def search(ctx, limit):
     """Search and list items."""
     service = ctx.obj["service"]
-    response = requests.get("{}/{}".format(SERVICES[service]["url"], service))
+    params = {"limit": limit}
+    response = requests.get("{}/{}".format(SERVICES[service]["url"], service), params=params)
     if (response.status_code >= 300):
         color = "red"
         click.echo('Searching -> ', nl=False)
