@@ -32,6 +32,13 @@ def admin(ctx):
     pass
 
 
+@click.group()
+@click.pass_context
+def auth(ctx):
+    """Authetication commands."""
+    pass
+
+
 @click.command()
 @click.argument('jsonfile', type=click.File('rb'))
 @click.pass_context
@@ -147,17 +154,62 @@ def passwd(ctx, id, password):
     else:
         click.echo("{}".format(response.text))
 
+########################################################################
+#                           Authentification                           #
+########################################################################
+
+
+@click.command()
+@click.argument('username')
+@click.argument('password')
+@click.argument('servicename')
+@click.pass_context
+def register(ctx, username, password, servicename):
+    """Will register a new client"""
+    service = "users"
+    values = voorhees.to_json({"username": username,
+                               "password": password,
+                               "name": servicename})
+    response = requests.post("{}/{}".format(SERVICES[service]["url"], "clients"), data=values)
+    if (response.status_code >= 300):
+        color = "red"
+        click.echo('Client register -> ', nl=False)
+        click.echo(click.style('{}'.format(response.status_code), fg=color))
+    else:
+        result = voorhees.from_json(response.text)
+        click.echo("client_id: {}".format(result["client_id"]))
+        click.echo("client_secret: {}".format(result["client_secret"]))
+
+
+@click.command()
+@click.argument('client_id')
+@click.argument('client_secret')
+@click.pass_context
+def login(ctx, client_id, client_secret):
+    service = "users"
+    values = voorhees.to_json({"client_id": client_id,
+                               "client_secret": client_secret})
+    response = requests.post("{}/{}".format(SERVICES[service]["url"], "login"), data=values)
+    if (response.status_code >= 300):
+        color = "red"
+        click.echo('Client login -> ', nl=False)
+        click.echo(click.style('{}'.format(response.status_code), fg=color))
+    else:
+        click.echo("{}".format(response.text))
+
 
 main.add_command(crud)
 main.add_command(admin)
+main.add_command(auth)
 
 crud.add_command(search)
 crud.add_command(create)
 crud.add_command(read)
 crud.add_command(update)
 crud.add_command(delete)
-
 admin.add_command(passwd)
+auth.add_command(register)
+auth.add_command(login)
 
 
 if __name__ == "__main__":
