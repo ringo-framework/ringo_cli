@@ -3,6 +3,7 @@
 import click
 import requests
 import voorhees
+from .deploy import deploy
 
 SERVICES = {
         "users": {"url": "http://0.0.0.0:5000"}
