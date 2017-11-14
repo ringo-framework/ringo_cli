@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import click
 import configparser
 from invoke import run
+
+
+def get_services(config):
+    services = []
+    for section in config.sections():
+        if section.startswith("service:"):
+            services.append(section.split(":")[1])
+    return services
 
 
 def get_path_to_confifile():
@@ -10,17 +19,22 @@ def get_path_to_confifile():
 
 
 def get_path_to_dockerfile(config):
-    return "/home/torsten/Entwicklung/docker/ringo2-dev"
+    return config["build"]["docker"]
+
+
+def get_ssh_keys(config):
+    return config["build"]["ssh"].split("\n")
 
 
 def get_path_to_ansible(config):
-    return "/home/torsten/Entwicklung/ringo-apps/ringocore/ansible"
+    return config["build"]["ansible"]
 
 
-def build_docker(path, service, version="latest"):
+def build_docker(path, service, sshkeys, version="latest"):
     commands = []
     commands.append("cd {}".format(path))
-    commands.append("cat ~/.ssh/id_rsa.pub >> sshkeys")
+    for key in sshkeys:
+        commands.append("cat {} > sshkeys".format(key))
     commands.append("chmod 644 sshkeys")
     commands.append("docker build -t {}:{} .".format(service, version))
     commands.append("rm sshkeys")
@@ -80,16 +94,27 @@ def run_service(service, host):
 def deploy(ctx, config, service, version, destination):
     """Deploy a service"""
 
-    #deployment = configparser.ConfigParser()
-    #deployment.read_file(config)
+    deployment = configparser.ConfigParser()
+    deployment.read_file(config)
+
+    # Check if given service is valid
+    services = get_services(deployment)
+    if service not in services:
+        click.secho("Invalid service!", fg="red")
+        click.echo("Can not find service in {}.\n"
+                   "Please choose from [{}]".format(config.name, ", ".join(services)))
+        sys.exit(1)
+
     # Build new docker docker container
     stop_docker(service)
-    path_to_dockerfile = get_path_to_dockerfile(config)
-    build_docker(path_to_dockerfile, service)
+    path_to_dockerfile = get_path_to_dockerfile(deployment)
+
+    sshkeys = get_ssh_keys(deployment)
+    build_docker(path_to_dockerfile, service, sshkeys)
     run_docker(service)
 
     # Deploy service in the new docker container
-    path_to_ansible = get_path_to_ansible(config)
+    path_to_ansible = get_path_to_ansible(deployment)
     run_playbook(path_to_ansible, "playbook.yml")
 
     # Run the service
