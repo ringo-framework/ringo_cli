@@ -49,7 +49,7 @@ def create(ctx, jsonfile):
     The new item(s) are initialised with the values defined in the JSON
     file. Create is called for every dataset within the JSON file.
     """
-    data = voorhees.from_json(jsonfile.read())
+    data = voorhees.from_json(jsonfile.read().decode("utf-8"))
     if not isinstance(data, list):
         data = [data]
 
@@ -86,7 +86,7 @@ def update(ctx, jsonfile):
     The item(s) are updated with the values defined in the JSON
     file. Update is called for every dataset within the JSON file.
     """
-    data = voorhees.from_json(jsonfile.read())
+    data = voorhees.from_json(jsonfile.read().decode("utf-8"))
     if not isinstance(data, list):
         data = [data]
 
@@ -202,6 +202,7 @@ def login(ctx, client_id, client_secret):
 main.add_command(crud)
 main.add_command(admin)
 main.add_command(auth)
+main.add_command(deploy)
 
 crud.add_command(search)
 crud.add_command(create)
