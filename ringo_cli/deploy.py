@@ -30,18 +30,18 @@ def get_path_to_ansible(config):
     return config["build"]["ansible"]
 
 
-def build_docker(path, service, sshkeys, version="latest"):
+def build_docker(path, service, sshkeys, tag="latest"):
     commands = []
     commands.append("cd {}".format(path))
     for key in sshkeys:
         commands.append("cat {} > sshkeys".format(key))
     commands.append("chmod 644 sshkeys")
-    commands.append("docker build -t {}:{} .".format(service, version))
+    commands.append("docker build -t {}:{} .".format(service, tag))
     commands.append("rm sshkeys")
     run(";".join(commands))
 
 
-def run_docker(service, version="latest"):
+def run_docker(service, tag="latest"):
     commands = []
     commands.append("docker run \
                     -d \
@@ -49,7 +49,7 @@ def run_docker(service, version="latest"):
                     --name {} \
                     --publish=2222:22 \
                     --publish=5000:5000 \
-                    {}:{}".format(service, service, version))
+                    {}:{}".format(service, service, tag))
     run(";".join(commands))
 
 
@@ -62,10 +62,20 @@ def stop_docker(service):
         click.echo(e)
 
 
-def run_playbook(path_to_ansible, playbook):
+def run_playbook(path_to_ansible, playbook, config):
+    extra_vars = " ".join([
+        "voorhees_version={}".format(config["voorhees_version"]),
+        "service_version={}".format(config["service_version"]),
+        "storage_version={}".format(config["storage_version"]),
+        "core_version={}".format(config["core_version"]),
+        "version={}".format(config["version"])
+    ])
     commands = []
     commands.append("cd {}".format(path_to_ansible))
-    commands.append("ansible-playbook {} -i hosts".format(playbook))
+    commands.append("ansible-playbook {} \
+                    -i hosts \
+                    --extra-vars '{}' \
+                    ".format(playbook, extra_vars))
     run(";".join(commands))
 
 
@@ -114,8 +124,9 @@ def deploy(ctx, config, service, version, destination):
     run_docker(service)
 
     # Deploy service in the new docker container
+    service_config = deployment["service:{}".format(service)]
     path_to_ansible = get_path_to_ansible(deployment)
-    run_playbook(path_to_ansible, "playbook.yml")
+    run_playbook(path_to_ansible, "playbook.yml", service_config)
 
     # Run the service
-    run_service(service, destination)
+    #run_service(service, destination)
