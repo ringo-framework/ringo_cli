@@ -15,7 +15,7 @@ def get_services(config):
 
 
 def get_path_to_confifile():
-    return "/home/torsten/Entwicklung/tedega-apps/ringocore/lib/ringo_cli/deploy.cfg"
+    return "/home/torsten/Entwicklung/tedega-apps/tedegacore/lib/ringo_cli/deploy.cfg"
 
 
 def get_path_to_dockerfile(config):

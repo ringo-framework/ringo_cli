@@ -13,7 +13,7 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from tedega_cli import ringo_cli
+from tedega_cli import tedega_cli
 from tedega_cli import cli
 
 

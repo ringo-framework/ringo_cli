@@ -36,7 +36,7 @@ setup(
                  'tedega_cli'},
     entry_points={
         'console_scripts': [
-            'tedega_cli=ringo_cli.cli:main'
+            'tedega_cli=tedega_cli.cli:main'
         ]
     },
     include_package_data=True,
