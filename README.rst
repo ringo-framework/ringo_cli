@@ -1,28 +1,28 @@
 ===============================
-Ringo CLI
+Tedega CLI
 ===============================
 
 
-.. image:: https://img.shields.io/pypi/v/ringo_cli.svg
-        :target: https://pypi.python.org/pypi/ringo_cli
+.. image:: https://img.shields.io/pypi/v/tedega_cli.svg
+        :target: https://pypi.python.org/pypi/tedega_cli
 
-.. image:: https://img.shields.io/travis/toirl/ringo_cli.svg
-        :target: https://travis-ci.org/toirl/ringo_cli
+.. image:: https://img.shields.io/travis/toirl/tedega_cli.svg
+        :target: https://travis-ci.org/toirl/tedega_cli
 
-.. image:: https://readthedocs.org/projects/ringo-cli/badge/?version=latest
-        :target: https://ringo-cli.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/tedega-cli/badge/?version=latest
+        :target: https://tedega-cli.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/toirl/ringo_cli/shield.svg
-     :target: https://pyup.io/repos/github/toirl/ringo_cli/
+.. image:: https://pyup.io/repos/github/toirl/tedega_cli/shield.svg
+     :target: https://pyup.io/repos/github/toirl/tedega_cli/
      :alt: Updates
 
 
-CLI for ringo services.
+CLI for tedega services.
 
 
 * Free software: MIT license
-* Documentation: https://ringo-cli.readthedocs.io.
+* Documentation: https://tedega-cli.readthedocs.io.
 
 
 Features

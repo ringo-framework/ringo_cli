@@ -21,28 +21,28 @@ test_requirements = [
 ]
 
 setup(
-    name='ringo_cli',
+    name='tedega_cli',
     version='0.1.0',
-    description="CLI for ringo services.",
+    description="CLI for tedega services.",
     long_description=readme + '\n\n' + history,
     author="Torsten Irländer",
     author_email='torsten.irlaender@googlemail.com',
-    url='https://github.com/toirl/ringo_cli',
+    url='https://github.com/toirl/tedega_cli',
     packages=[
-        'ringo_cli',
+        'tedega_cli',
     ],
-    package_dir={'ringo_cli':
-                 'ringo_cli'},
+    package_dir={'tedega_cli':
+                 'tedega_cli'},
     entry_points={
         'console_scripts': [
-            'ringo_cli=ringo_cli.cli:main'
+            'tedega_cli=ringo_cli.cli:main'
         ]
     },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='ringo_cli',
+    keywords='tedega_cli',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

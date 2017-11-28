@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_ringo_cli
+test_tedega_cli
 ----------------------------------
 
-Tests for `ringo_cli` module.
+Tests for `tedega_cli` module.
 """
 
 import pytest
@@ -13,8 +13,8 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from ringo_cli import ringo_cli
-from ringo_cli import cli
+from tedega_cli import ringo_cli
+from tedega_cli import cli
 
 
 @pytest.fixture
@@ -35,7 +35,7 @@ def test_command_line_interface():
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
-    assert 'ringo_cli.cli.main' in result.output
+    assert 'tedega_cli.cli.main' in result.output
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output

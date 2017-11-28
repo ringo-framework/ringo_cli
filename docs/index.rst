@@ -1,4 +1,4 @@
-Welcome to Ringo CLI's documentation!
+Welcome to Tedega CLI's documentation!
 ======================================
 
 Contents:

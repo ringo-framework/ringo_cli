@@ -13,7 +13,7 @@ SERVICES = {
 @click.group()
 @click.pass_context
 def main(ctx):
-    """CLI for the Ringo2 core service."""
+    """CLI for the Tedega2 core service."""
     ctx.obj = {}
     pass
 

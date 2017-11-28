@@ -2,6 +2,6 @@
 Usage
 =====
 
-To use Ringo CLI in a project::
+To use Tedega CLI in a project::
 
-    import ringo_cli
+    import tedega_cli

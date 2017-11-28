@@ -1,4 +1,4 @@
-* Ringo CLI version:
+* Tedega CLI version:
 * Python version:
 * Operating System:
 
