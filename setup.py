@@ -12,7 +12,8 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'Click>=6.0',
     'requests',
-    'voorhees'
+    'voorhees',
+    'invoke'
     # TODO: put package requirements here
 ]
 
